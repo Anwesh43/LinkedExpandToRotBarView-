@@ -27,3 +27,34 @@ fun Int.inverse() : Float = 1f / this
 fun Float.maxScale(i : Int, n : Int) : Float = Math.max(0f, this - i * n.inverse())
 fun Float.divideScale(i : Int, n : Int) : Float = Math.min(n.inverse(), maxScale(i, n)) * n
 fun Float.sinify() : Float = Math.sin(this * Math.PI).toFloat()
+
+fun Canvas.drawExpandBarToRot(scale : Float, w : Float, h : Float, paint : Paint) {
+    val wSize : Float = Math.min(w, h) / wFactor
+    val size : Float = Math.min(w, h) / sizeFactor
+    val gap : Float = Math.min(w, h) / gapFactor
+    val sf : Float = scale.sinify()
+    val sf1 : Float = sf.divideScale(0, parts + 1)
+    val sf2 : Float = sf.divideScale(1, parts + 1)
+    val sf3 : Float = sf.divideScale(2, parts + 1)
+    val sf4 : Float = sf.divideScale(3, parts + 1)
+    val dw : Float = wSize * sf1 + (size - wSize ) * sf3
+    val dh : Float = wSize * sf1
+    save()
+    translate(w / 2, h / 2)
+    rotate(rot * sf4)
+    for (j in 0..1) {
+        save()
+        scale(1f, 1f - 2 * j)
+        translate(0f, gap * sf2)
+        drawRect(RectF(-dw / 2, -dh / 2, dw / 2, dh / 2), paint)
+        restore()
+    }
+    restore()
+}
+
+fun Canvas.drawEBTRNode(i : Int, scale : Float, paint : Paint) {
+    val w : Float = width.toFloat()
+    val h : Float = height.toFloat()
+    paint.color = Color.parseColor(colors[i])
+    drawExpandBarToRot(scale, w, h, paint)
+}
