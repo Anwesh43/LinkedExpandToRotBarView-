@@ -15,9 +15,9 @@ import android.graphics.Color
 
 val colors : Array<String> = arrayOf("#cc3214", "#21ddee", "#4556AB", "#AB2131", "#1234CC")
 val parts : Int = 4
-val scGap : Float = 0.02f
-val sizeFactor : Float = 10.2f
-val wFactor : Float = 2f
+val scGap : Float = 0.02f / parts
+val sizeFactor : Float = 2f
+val wFactor : Float = 10.2f
 val gapFactor : Float = 4f
 val delay : Long = 20
 val backColor : Int = Color.parseColor("#BDBDBD")
@@ -37,7 +37,7 @@ fun Canvas.drawExpandBarToRot(scale : Float, w : Float, h : Float, paint : Paint
     val sf2 : Float = sf.divideScale(1, parts + 1)
     val sf3 : Float = sf.divideScale(2, parts + 1)
     val sf4 : Float = sf.divideScale(3, parts + 1)
-    val dw : Float = wSize * sf1 + (size - wSize ) * sf3
+    val dw : Float = wSize * sf1 + (size - wSize ) * sf2
     val dh : Float = wSize * sf1
     save()
     translate(w / 2, h / 2)
@@ -45,7 +45,7 @@ fun Canvas.drawExpandBarToRot(scale : Float, w : Float, h : Float, paint : Paint
     for (j in 0..1) {
         save()
         scale(1f, 1f - 2 * j)
-        translate(0f, gap * sf2)
+        translate(0f, gap * sf3)
         drawRect(RectF(-dw / 2, -dh / 2, dw / 2, dh / 2), paint)
         restore()
     }
