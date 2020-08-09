@@ -211,4 +211,13 @@ class ExpandBarToRotBarView(ctx : Context) : View(ctx) {
             }
         }
     }
+
+    companion object {
+
+        fun create(activity : Activity) : ExpandBarToRotBarView {
+            val view : ExpandBarToRotBarView = ExpandBarToRotBarView(activity)
+            activity.setContentView(view)
+            return view
+        }
+    }
 }
