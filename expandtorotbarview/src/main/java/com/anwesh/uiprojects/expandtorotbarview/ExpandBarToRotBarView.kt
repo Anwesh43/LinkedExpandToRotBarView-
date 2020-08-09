@@ -186,4 +186,27 @@ class ExpandBarToRotBarView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : ExpandBarToRotBarView) {
+
+        private val animator : Animator = Animator(view)
+        private val ebtr : ExpandBarToRot = ExpandBarToRot(0)
+        private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
+
+        fun render(canvas : Canvas) {
+            canvas.drawColor(backColor)
+            ebtr.draw(canvas,paint)
+            animator.animate {
+                ebtr.update {
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            ebtr.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
